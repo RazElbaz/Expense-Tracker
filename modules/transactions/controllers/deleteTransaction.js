@@ -41,8 +41,7 @@ const deleteTransaction = async (req, res) => {
         }
         );
     }
-
-
+    
     await transactionModel.deleteOne({
         _id: transaction_id
     });
