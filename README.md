@@ -1,4 +1,4 @@
-# Expense-Tracker
+# Expense Tracker
 
 ## Overview
 
@@ -55,19 +55,41 @@ The project is organized into several directories, each responsible for differen
 
 ### User Routes
 
-- **POST /api/users/register**: Register a new user.
-- **POST /api/users/login**: Log in a user.
-- **POST /api/users/forgotpw**: Send a password reset code to the user's email.
-- **POST /api/users/resetpw**: Reset the user's password using the reset code.
-- **GET /api/users/dashboard**: Retrieve the user’s dashboard including recent transactions.
+- **POST** `http://localhost:8000/api/users/register`  
+  Register a new user.
+
+- **POST** `http://localhost:8000/api/users/login`  
+  Log in a user.
+
+- **POST** `http://localhost:8000/api/users/forgotpw`  
+  Send a password reset code to the user's email.
+
+- **POST** `http://localhost:8000/api/users/resetpw`  
+  Reset the user's password using the reset code.
+
+- **GET** `http://localhost:8000/api/users/dashboard`  
+  Retrieve the user’s dashboard including recent transactions.  
+  **Authorization**: Bearer Token (provided in `{{accessToken}}`)
 
 ### Transaction Routes
 
-- **POST /api/transactions/addIncome**: Add a new income transaction.
-- **POST /api/transactions/addExpense**: Add a new expense transaction.
-- **GET /api/transactions**: Get a list of transactions for the logged-in user.
-- **DELETE /api/transactions/:transaction_id**: Delete a transaction.
-- **PATCH /api/transactions**: Edit an existing transaction.
+- **POST** `http://localhost:8000/api/transactions/addIncome`  
+  Add a new income transaction.
+
+- **POST** `http://localhost:8000/api/transactions/addExpense`  
+  Add a new expense transaction.
+
+- **GET** `http://localhost:8000/api/transactions`  
+  Get a list of transactions for the logged-in user.  
+  **Query Parameters** (optional):
+  - `transaction_type`: Filter by transaction type (`income` or `expense`).
+  - `amount`: Filter by amount.
+
+- **DELETE** `http://localhost:8000/api/transactions/:transaction_id`  
+  Delete a transaction.
+
+- **PATCH** `http://localhost:8000/api/transactions`  
+  Edit an existing transaction.
 
 ## Error Handling
 
@@ -91,13 +113,11 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
 
 - Controllers handle the logic for each route and interact with the database models.
 
-
-
-##  API Endpoints - Examples
+## API Endpoints - Examples
 
 ### User Routes
 
-#### **POST /api/users/register**
+#### **POST** `http://localhost:8000/api/users/register`
 - **Request Body**:
     ```json
     {
@@ -109,7 +129,7 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
     }
     ```
 
-#### **POST /api/users/login**
+#### **POST** `http://localhost:8000/api/users/login`
 - **Request Body**:
     ```json
     {
@@ -118,7 +138,7 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
     }
     ```
 
-#### **POST /api/users/forgotpw**
+#### **POST** `http://localhost:8000/api/users/forgotpw`
 - **Request Body**:
     ```json
     {
@@ -126,7 +146,7 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
     }
     ```
 
-#### **POST /api/users/resetpw**
+#### **POST** `http://localhost:8000/api/users/resetpw`
 - **Request Body**:
     ```json
     {
@@ -136,12 +156,12 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
     }
     ```
 
-#### **GET /api/users/dashboard**
+#### **GET** `http://localhost:8000/api/users/dashboard`
 - **Authorization**: Bearer Token (provided in `{{accessToken}}`)
 
 ### Transaction Routes
 
-#### **POST /api/transactions/addIncome**
+#### **POST** `http://localhost:8000/api/transactions/addIncome`
 - **Request Body**:
     ```json
     {
@@ -150,7 +170,7 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
     }
     ```
 
-#### **POST /api/transactions/addExpense**
+#### **POST** `http://localhost:8000/api/transactions/addExpense`
 - **Request Body**:
     ```json
     {
@@ -159,7 +179,7 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
     }
     ```
 
-#### **DELETE /api/transactions/:transaction_id**
+#### **DELETE** `http://localhost:8000/api/transactions/:transaction_id`
 - **Request Body**:
     ```json
     {
@@ -168,7 +188,7 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
     }
     ```
 
-#### **PATCH /api/transactions**
+#### **PATCH** `http://localhost:8000/api/transactions`
 - **Request Body**:
     ```json
     {
@@ -179,20 +199,20 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
     }
     ```
 
-#### **GET /api/transactions**
+#### **GET** `http://localhost:8000/api/transactions`
 - **Query Parameters** (optional):
     - `transaction_type`: Filter by transaction type (`income` or `expense`).
     - `amount`: Filter by amount.
 
 ### Example Endpoints with Query Parameters
 
-#### **GET /api/transactions?transaction_type=income**
+#### **GET** `http://localhost:8000/api/transactions?transaction_type=income`
 - **Description**: Retrieve transactions of type `income`.
 
-#### **GET /api/transactions?transaction_type=expense**
+#### **GET** `http://localhost:8000/api/transactions?transaction_type=expense`
 - **Description**: Retrieve transactions of type `expense`.
 
-#### **GET /api/transactions?transaction_type=expense&amount=10**
+#### **GET** `http://localhost:8000/api/transactions?transaction_type=expense&amount=10`
 - **Description**: Retrieve `expense` transactions with a specific amount.
 
 ## Contributing
