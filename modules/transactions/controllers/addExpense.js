@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 
 
-const addIncome = async (req, res) => {
+const addExpense = async (req, res) => {
 
     const usersModel = mongoose.model("users");
     const transactionsModel = mongoose.model("transactions");
@@ -17,19 +17,19 @@ const addIncome = async (req, res) => {
     if(!validator.isNumeric(amount.toString())) throw "Amount must be a valid number.";
 
     if(amount < 0) throw "Amount must not be negative.";
-    
+
     await transactionsModel.create({
         user_id: req.user._id,
         amount: amount,
         remarks: remarks,
-        transaction_type: "income"
+        transaction_type: "expense"
     });
 
     await usersModel.updateOne({
         _id: req.user._id
     },{
-        $inc:{ // balance will be increased by the amount
-        balance: amount
+        $inc:{ // balance will be decreased by the amount
+        balance: amount * (-1)
         }
     },{
         runValidators: true // without it the validation in shcema will not work
@@ -38,9 +38,9 @@ const addIncome = async (req, res) => {
 
     res.status(200).json({
         status: "success",
-        message: "Income added successfully!"
+        message: "Expense added successfully!"
     });
 
 };
 
-module.exports = addIncome;
+module.exports = addExpense;
