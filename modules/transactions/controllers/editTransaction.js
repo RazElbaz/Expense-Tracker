@@ -7,7 +7,8 @@ const editTransaction = async (req, res) => {
     const usersModel = mongoose.model("users");
     const transactionModel = mongoose.model("transactions");
 
-    const { transaction_id, remarks, amount, transaction_type } = req.body;
+    const { transaction_id, remarks, transaction_type } = req.body;
+    let { amount }  = req.body;
 
     // transaction_id validation
     if(!transaction_id) throw "Transaction id is required!";
@@ -18,10 +19,11 @@ const editTransaction = async (req, res) => {
 
     // remarks validation
     if(remarks && remarks.length < 5) throw "Remarks must be at least 5 characters long!";
-    
+      
     // amount validation
-    if(!validator.isNumeric(amount.toString())) throw "Amount must be a valid number.";
-    if(amount < 0) throw "Amount must not be negative.";
+    if(amount && typeof amount != "number") throw "Amount must be a valid number.";
+    if(amount && amount < 0) throw "Amount must not be negative.";
+
 
     const getTransaction = await transactionModel.findOne({
         _id: transaction_id
@@ -29,30 +31,63 @@ const editTransaction = async (req, res) => {
 
     if(!getTransaction) throw "Transaction not found!";
 
-    if(getTransaction.transaction_type === "income"){
-        await usersModel.updateOne({
-            _id: getTransaction.user_id
-        },{
-            $inc:{
-                balance: amount - getTransaction.amount 
+    if(!amount) amount = getTransaction.amount;
+    
+    if(transaction_type){
+        if(getTransaction.transaction_type === "income"){
+            if(transaction_type === "income"){
+                await usersModel.updateOne({
+                    _id: getTransaction.user_id
+                },{
+                    $inc:{
+                        balance: amount - getTransaction.amount 
+                    }
+                },{
+                    runValidators: true
+                }
+                );
+            } else {
+                await usersModel.updateOne({
+                    _id: getTransaction.user_id
+                },{
+                    $inc:{
+                        balance: ( amount + getTransaction.amount ) * (-1)
+                    }
+                },{
+                    runValidators: true
+                }
+                );
             }
-        },{
-            runValidators: true
-        }
-        );
-    } else { 
-        await usersModel.updateOne({
-            _id: getTransaction.user_id
-        },{
-            $inc:{
-                balance: ( amount - getTransaction.amount ) * (-1)
+            
+        } else { 
+            if(transaction_type === "expense"){
+                await usersModel.updateOne({
+                    _id: getTransaction.user_id
+                },{
+                    $inc:{
+                        balance: getTransaction.amount  - amount 
+                    }
+                },{
+                    runValidators: true
+                }
+                );
+            } else {
+                await usersModel.updateOne({
+                    _id: getTransaction.user_id
+                },{
+                    $inc:{
+                        balance: ( amount + getTransaction.amount ) 
+                    }
+                },{
+                    runValidators: true
+                }
+                );
             }
-        },{
-            runValidators: true
+            
         }
-        );
+    
     }
-
+    
     await transactionModel.updateOne({
         _id: transaction_id
     },{
