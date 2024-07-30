@@ -23,7 +23,7 @@ const login = async (req,res) => {
         _id: getUser._id,
         name: getUser.name
     }, process.env.jwt_salt
-);
+    );
 
 
     res.status(200).json({
