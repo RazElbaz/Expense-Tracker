@@ -26,8 +26,12 @@ const resetPassword = async (req, res) => {
     await usersModel.updateOne({
         email: email
     },{
-        password: hashedPassword
-    });
+        password: hashedPassword,
+        reset_code: ""
+    },{
+        runValidators: true
+    }
+    );
 
     res.status(200).json({
         status: "success",
