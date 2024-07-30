@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const transactionsSchema = new mongoose.Schema({
-  uder_id: {
+  user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
     required: true
@@ -12,7 +12,7 @@ const transactionsSchema = new mongoose.Schema({
     required: true
   },
 
-  transactions_type: {
+  transaction_type: {
     type: String,
     required: true, 
     enum: ["income", "expense"]
