@@ -7,23 +7,15 @@ const editTransaction = async (req, res) => {
     const usersModel = mongoose.model("users");
     const transactionModel = mongoose.model("transactions");
 
-    const { transaction_id, remarks, transaction_type } = req.body;
-    let { amount }  = req.body;
+    const { transaction_id, remarks } = req.body;
+    let { transaction_type, amount }  = req.body;
 
     // transaction_id validation
     if(!transaction_id) throw "Transaction id is required!";
     if(!validator.isMongoId(transaction_id.toString())) throw "Please provide a valid transaction id!";
 
-    // transaction_type validation
-    if(transaction_type !== "income" && transaction_type !== "expense") throw "Transation type must be income or expense!";
-
     // remarks validation
     if(remarks && remarks.length < 5) throw "Remarks must be at least 5 characters long!";
-      
-    // amount validation
-    if(amount && typeof amount != "number") throw "Amount must be a valid number.";
-    if(amount && amount < 0) throw "Amount must not be negative.";
-
 
     const getTransaction = await transactionModel.findOne({
         _id: transaction_id
@@ -31,7 +23,14 @@ const editTransaction = async (req, res) => {
 
     if(!getTransaction) throw "Transaction not found!";
 
+    // amount validation
+    if(amount && typeof amount != "number") throw "Amount must be a valid number.";
+    if(amount && amount < 0) throw "Amount must not be negative.";
     if(!amount) amount = getTransaction.amount;
+    
+    // transaction_type validation
+    if(!transaction_type) transaction_type = getTransaction.transaction_type;
+    if(transaction_type !== "income" && transaction_type !== "expense") throw "Transation type must be income or expense!";
     
     if(transaction_type){
         if(getTransaction.transaction_type === "income"){
