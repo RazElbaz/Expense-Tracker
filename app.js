@@ -5,6 +5,7 @@ const errorHandler = require("./handlers/errorHandler");
 
 require("dotenv").config();
 const mongoose = require("mongoose");
+const userRoute = require("./modules/users/users.routes");
 
 
 // connecting to mongoDB
@@ -31,7 +32,7 @@ app.use(express.json());
 require("./models/users.model");
 
 //Routes ..
-
+app.use("/api/users", userRoute);
 
 app.use(errorHandler);
 
