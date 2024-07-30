@@ -30,6 +30,8 @@ app.use(express.json());
 //Models ..
 
 require("./models/users.model");
+require("./models/transactions.model");
+
 
 //Routes ..
 app.use("/api/users", userRoute);
