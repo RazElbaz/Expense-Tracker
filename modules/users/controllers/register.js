@@ -45,7 +45,7 @@ const register = async (req, res) => {
         }
       });
 
-    transport.sendMail({
+    await transport.sendMail({
         to: createdUser.email,
         from: "info@expensetracker.com",
         text: "Welcome to expense tracker. We hope you can manage your expense easily from our platform!",

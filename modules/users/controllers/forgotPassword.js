@@ -36,7 +36,7 @@ const forgotPassword = async (req, res) => {
       });
 
 
-    transport.sendMail({
+    await transport.sendMail({
         to: getUser.email,
         from: "info@expensetracker.com",
         text: "Your password reset code is: " + resetCode,
