@@ -40,10 +40,9 @@ const deleteTransaction = async (req, res) => {
             runValidators: true
         }
         );
-
     }
 
-    
+
     await transactionModel.deleteOne({
         _id: transaction_id
     });
