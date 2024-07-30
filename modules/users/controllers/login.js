@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bycrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
+const jwtManager = require("../../../managers/jwtManager");
 
 
 const login = async (req,res) => {
@@ -19,11 +20,7 @@ const login = async (req,res) => {
     if(!comparePassword) throw "Email and password do not match!";
 
 
-    const accessToken = await jsonwebtoken.sign({ 
-        _id: getUser._id,
-        name: getUser.name
-    }, process.env.jwt_salt
-    );
+    const accessToken = jwtManager(getUser); //the jwt manager will create an access to this getUser or the user object
 
 
     res.status(200).json({
