@@ -215,6 +215,13 @@ Errors are handled by the `errorHandler` middleware, which responds with a JSON 
 #### **GET** `http://localhost:8000/api/transactions?transaction_type=expense&amount=10`
 - **Description**: Retrieve `expense` transactions with a specific amount.
 
+## Production
+
+The API can also be run in a production environment. The base URL for the production deployment is:  
+**`https://expense-tracker-8xtr.onrender.com`**  
+
+You can change the URL to match your deployed instance or local setup as needed.
+
 ## Contributing
 
 If you want to contribute to this project, please fork the repository and submit a pull request with your changes.
@@ -222,4 +229,3 @@ If you want to contribute to this project, please fork the repository and submit
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
