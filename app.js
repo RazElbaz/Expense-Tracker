@@ -38,6 +38,14 @@ require("./models/transactions.model");
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 
+//End of all routes...
+app.all("*", (req, res, next) => {
+    res.status(404).json({
+        status: "failed",
+        error: "Not found!",
+      });
+});
+
 app.use(errorHandler);
 
 app.listen(8000, () => {
