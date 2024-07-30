@@ -1,6 +1,7 @@
 require("express-async-errors");
 
 const express = require("express");
+const cors = require("cors");
 const errorHandler = require("./handlers/errorHandler");
 
 require("dotenv").config();
@@ -25,6 +26,7 @@ mongoose
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 
